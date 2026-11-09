@@ -30,3 +30,7 @@ A low-cost, modular weather monitoring station designed to collect and record en
 Suggestions, improvements and contributions are welcome by me.
 
 My friend **Susheel** is also a partner in making this project, so huge thanks to him too
+
+## A small note
+
+This project is not physically built; it only has been visualised. This note will be removed after all the files are uploaded and the project is fully built.
