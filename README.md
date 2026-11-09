@@ -1,16 +1,12 @@
-# Perun-of-ABR 
-Perun is a low cost, open source, modular weather monitoring project software "built" for rural areas and urban ones. The actual harware is known as ABR. 
+# Perun
 
+PERUN is an open-source weather monitoring project focused on making environmental data accessible through affordable, modular and locally buildable technology.
 
-Our goal is to make useful technology accessible through open designs, transparent documentation and community collaboration.
+# ABR — The Weather Station
 
-Projects
+ABR is the hardware component of PERUN: a modular weather station designed for both rural and urban environments.
 
-ABR (ابر) — Weather Station
-
-A low-cost, modular weather monitoring station designed to collect and record environmental data.
-
-## Measurements include:
+## Measurements
 
 1. Temperature and humidity
 2. Atmospheric pressure
@@ -19,18 +15,20 @@ A low-cost, modular weather monitoring station designed to collect and record en
 
 ## Our Principles
 
-1. Open source: Designs and code should be available to everyone.
-2. Modular: Components should be easy to replace and upgrade.
-3. Affordable: Keep costs accessible, even to rural and poor regions.
-4. Reproducible: Make projects possible to build locally.
-5. Community-driven: Encourage collaboration and improvement.
+1. Open source — Designs and code should be freely available.
+2. Modular — Components should be easy to replace, repair and upgrade.
+3. Affordable — Keep costs accessible, including for resource-limited communities.
+4. Reproducible — Make local construction and replication possible.
+5. Community-driven — Encourage collaboration, contributions and improvement.
 
 ## Contributing
 
-Suggestions, improvements and contributions are welcome by me.
+Suggestions, ideas and contributions are welcome.
 
-My friend **Susheel** is also a partner in making this project, so huge thanks to him too
+PERUN is being developed by me alongside my friend and project partner, Susheel. A huge thanks to him for being part of this project.
 
-## A small note
+## Current Status
 
-This project is not physically built; it only has been visualised. This note will be removed after all the files are uploaded and the project is fully built.
+ABR has currently only been visualised, but has not yet been physically built. Hardware files, firmware and documentation will be added as development progresses.
+
+This section will be updated as the project moves towards its first prototype.
