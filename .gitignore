@@ -1,0 +1,27 @@
+# Arduino build artefacts
+build/
+*.hex
+*.elf
+*.bin
+*.map
+*.o
+*.d
+*.a
+*.dSYM/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local configuration and secrets
+config_local.h
+secrets.h
+.env
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini

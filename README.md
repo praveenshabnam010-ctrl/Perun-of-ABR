@@ -32,3 +32,7 @@ PERUN is being developed by me alongside my friend and project partner, Susheel.
 ABR has currently only been visualised, but has not yet been physically built. Hardware files, firmware and documentation will be added as development progresses.
 
 This section will be updated as the project moves towards its first prototype.
+
+---
+
+*Built with the assistance of [Google Antigravity](https://antigravity.dev) — real human thinking, not AI slop.*
