@@ -1,51 +1,87 @@
 # Wiring
 
-**Status: planning.** No wiring has been performed or tested. The pin assignments are proposals and must be verified before anything is connected.
+**Status: planning.** No wiring has been performed or tested. The pin assignments below are proposals and must be verified against the datasheets of the specific modules used before anything is connected.
+
+---
 
 ## Buses
 
-### I2C
+### I²C — A4 (SDA), A5 (SCL)
 
-The BME280, BH1750 and DS3231 share the I2C bus. Pull-up resistors may be present on the modules, and multiple modules can load the bus. Check the modules and the bus requirements before connecting them together.
+The BME280, BH1750 and DS3231 share the I²C bus. Each device is addressed individually, so they can coexist on the same two wires provided there are no address conflicts.
 
-### SPI
+Pull-up resistors may already be present on the modules. Multiple modules on the same bus can affect bus loading. Check the requirements of each module before combining them.
 
-The microSD module and the ILI9341 display share the SPI bus. Each device requires its own chip-select line. Confirm the voltage and control-pin requirements of the display module.
+### SPI — D11 (MOSI), D12 (MISO), D13 (SCK)
 
-### Rain gauge
+The MicroSD module and the ILI9341 display share the SPI bus. Each device has its own chip-select line:
 
-The tipping bucket is intended to connect to an interrupt-capable GPIO pin. The required pull-up, debounce and protection depend on the gauge. Verify the output type before connecting it.
+- ILI9341 TFT — CS on **D10**
+- MicroSD module — CS on **D4**
+
+Only one SPI device is active at a time, determined by which chip-select line is pulled low.
+
+### Rain gauge — D2
+
+The tipping-bucket rain gauge is intended to connect to D2, which supports hardware interrupt 0 on the Arduino Uno R3. Each tip of the bucket triggers a pulse on this pin.
+
+The required pull-up resistor, debounce handling and electrical protection depend on the specific gauge model. Verify the output type before connecting.
+
+---
+
+## Voltage compatibility
+
+The Arduino Uno R3 operates at **5 V logic**. Many modules in the proposed design operate at **3.3 V logic**.
+
+**Do not connect a 5 V logic signal to a 3.3 V module without first verifying that the module is 5 V tolerant or includes a level shifter.** If it does not, a separate logic-level shifter is required.
+
+| Device | Typical logic voltage | Notes |
+|--------|-----------------------|-------|
+| BME280 | 3.3 V | Verify whether the module includes level shifting |
+| BH1750 | 3.3 V | Verify whether the module includes level shifting |
+| DS3231 | 3.3 V–5 V | Many modules include a regulator; verify |
+| ILI9341 TFT | 3.3 V | Some modules include level shifting; verify |
+| MicroSD module | 3.3 V | Most modules include a regulator and level shifter; verify |
+
+---
 
 ## Power
 
-- The Arduino Uno R3 provides 5 V and 3.3 V rails, but the 3.3 V rail has limited current capacity. Check the board datasheet.
-- Many modules are designed for 3.3 V logic. Do not connect 5 V logic signals directly without checking the module requirements.
-- The final power supply has not been selected. It must be able to supply the station reliably for the intended deployment.
+- The Arduino Uno R3 provides 5 V and 3.3 V rails, but the 3.3 V rail has a limited current capacity. Check the board datasheet.
+- If the combined current draw of 3.3 V modules exceeds the rail's capacity, an external regulated 3.3 V supply is required.
+- The final power supply for field deployment has not been selected. It must supply sufficient current for all components reliably.
 - Consider protection against reverse polarity, overcurrent and environmental conditions.
 
-## Connection notes
+---
 
-| Device | Bus | Notes |
-| --- | --- | --- |
-| BME280 | I2C | Address depends on the module |
-| BH1750 | I2C | Address depends on the module |
-| DS3231 | I2C | Battery backup supports timekeeping when power is removed |
-| MicroSD module | SPI | Confirm 3.3 V logic and level shifting |
-| ILI9341 TFT | SPI | Control pins depend on the module; verify |
-| Rain gauge | GPIO interrupt | Verify debounce and pull-up requirements |
+## Connection summary
 
-See the [pin map](../hardware/pinmap.md) for the proposed assignments.
+| Device | Bus | Proposed pins | Power rail | Notes |
+|--------|-----|--------------|------------|-------|
+| BME280 | I²C | A4 (SDA), A5 (SCL) | 3.3 V | Confirm address (0x76 or 0x77) and 5 V tolerance |
+| BH1750 | I²C | A4 (SDA), A5 (SCL) | 3.3 V | Confirm address (0x23 or 0x5C) and 5 V tolerance |
+| DS3231 | I²C | A4 (SDA), A5 (SCL) | 5 V | Confirm address (0x68) and module variant |
+| ILI9341 TFT | SPI | D10 (CS), D8 (RESET), D7 (DC), D11, D12, D13 | 3.3 V logic | Confirm control pin layout and level shifting |
+| MicroSD module | SPI | D4 (CS), D11, D12, D13 | 3.3 V logic | Confirm level shifting and FAT32 compatibility |
+| Rain gauge | GPIO interrupt | D2 | — | Confirm output type, pull-up and debounce needs |
+
+See the [pin map](../hardware/pinmap.md) for the full proposed assignments.
+
+---
 
 ## Before wiring
 
-- [ ] Collect the datasheet for every module.
-- [ ] Confirm the logic levels.
-- [ ] Review the pin map.
-- [ ] Check the I2C addresses for conflicts.
-- [ ] Check the power supply and current budget.
-- [ ] Prepare a wiring diagram.
-- [ ] Confirm that no hardware is connected until the checks are complete.
+- [ ] Collect the datasheet for every specific module to be used.
+- [ ] Confirm the logic voltage of each module.
+- [ ] Determine whether level shifting is required for each device.
+- [ ] Review the pin map and check for conflicts.
+- [ ] Check I²C addresses for conflicts.
+- [ ] Calculate the total current draw and verify the power supply can meet it.
+- [ ] Prepare a wiring diagram before making any connections.
+- [ ] Do not connect anything until the above checks are complete.
+
+---
 
 ## Diagram
 
-A wiring diagram and photographs will be added after the hardware has been acquired and verified. No diagram is included yet because the connections have not been tested.
+A wiring diagram and photographs will be added after the hardware has been acquired and the connections have been verified on the physical build. No diagram is included yet.
