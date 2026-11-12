@@ -35,4 +35,4 @@ This section will be updated as the project moves towards its first prototype.
 
 ---
 
-*Built with the assistance of [Google Antigravity](https://antigravity.dev) — real human thinking, not AI slop.*
+*Built with the assistance of [OpenCode](https://opencode.ai) and [NVIDIA Nemotron 3 Ultra](https://www.nvidia.com/en-us/ai/nemotron-3-ultra/) — the actual thinking of this project is human, not AI slop.*
