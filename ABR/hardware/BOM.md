@@ -1,6 +1,46 @@
-# Bill of Materials
+# ABR Weather Station — Bill of Materials (BOM)
 
 **Status: proposed.** No components have been purchased, acquired or tested. Prices and availability have not been verified. This is not a final bill of materials.
+
+---
+
+## Main components (prices from Robu.in, as of 12 November 2026)
+
+| No. | Component | Purpose | Quantity | Unit price |
+|-----|-----------|---------|----------|------------|
+| 1 | 2.4-inch SPI TFT Display Module (240 × 320) | Local data display | 1 | ₹699 |
+| 2 | SmartElex BME280 Atmospheric Sensor Breakout Board | Temperature, relative humidity and atmospheric pressure | 1 | ₹539 |
+| 3 | CJMCU TEMT6000 Ambient Light Sensor Module | Ambient light intensity measurement | 1 | ₹89 |
+| 4 | TXS0108E 8-Channel Logic Level Converter | Logic-level interfacing, where required | 1 | ₹59 |
+| 5 | DS3231 RTC Module (without battery) | Real-time clock and timestamps | 1 | ₹219 |
+| 6 | MicroSD Card Reader Module | Local data storage | 1 | ₹39 |
+| **Total** | | | **6** | **₹1,644** |
+
+---
+
+## Available components
+
+The following components are already available and not included in the cost above:
+
+- Arduino Uno R3
+- microSD card
+- Breadboard
+- Jumper wires
+
+---
+
+## Not yet included
+
+- Rain gauge — to be selected and added later.
+
+---
+
+## Notes
+
+- Prices are from Robu.in and may vary by region, supplier, and over time.
+- Clone and third-party module variants can differ significantly. Always verify the specific board received.
+- Do not substitute components without checking compatibility and updating the documentation.
+- No purchases have been made yet.
 
 ---
 
@@ -15,36 +55,6 @@
 
 ---
 
-## Core components
-
-| Item | Proposed part | Purpose | Interface | Qty | Power rail | Status | Notes |
-|------|---------------|---------|-----------|-----|------------|--------|-------|
-| Main controller | Arduino Uno R3 | Runs the firmware | — | 1 | External 5 V | Proposed, not acquired | Confirm board variant and logic level |
-| Environmental sensor | BME280 | Temperature, relative humidity and pressure | I²C | 1 | 3.3 V | Proposed, not acquired | Confirm module voltage, regulator and I²C address |
-| Light sensor | BH1750 | Light intensity | I²C | 1 | 3.3 V | Proposed, not acquired | Confirm module variant and I²C address |
-| Real-time clock | DS3231 | Timestamped measurements | I²C | 1 | 5 V | Proposed, not acquired | Confirm module variant, battery type and I²C address |
-| Display | 2.4-inch ILI9341 TFT | Local readout | SPI | 1 | 3.3 V logic | Proposed, not acquired | Confirm module voltage, level shifting and control pin layout |
-| Data storage | MicroSD card module | Local data logging | SPI | 1 | 3.3 V logic | Proposed, not acquired | Confirm logic voltage and level shifting |
-| Storage media | MicroSD card (8–16 GB) | Holds logged data | — | 1 | — | Proposed, not acquired | FAT32 format required for Arduino SD library |
-| Rain gauge | Tipping-bucket rain gauge | Rainfall measurement | GPIO interrupt | 1 | — | Proposed, not acquired | Confirm resolution, output type and debounce requirements |
-
----
-
-## Supporting components
-
-| Item | Purpose | Qty | Status | Notes |
-|------|---------|-----|--------|-------|
-| Breadboard or perfboard | Prototyping and permanent assembly | 1 | Proposed, not acquired | Breadboard for prototyping; perfboard for permanent build |
-| Jumper wires | Connections between components | As needed | Proposed, not acquired | Male-to-male and male-to-female |
-| Logic-level shifter | Converts 5 V signals to 3.3 V for 3.3 V modules | As needed | Proposed, not acquired | Required if modules are not 5 V tolerant; verify before purchase |
-| Voltage regulator | Provides stable 3.3 V if the Uno's rail is insufficient | As needed | Proposed, not acquired | Determine based on current requirements of all 3.3 V modules |
-| Regulated 5 V power supply | Powers the Arduino and station | 1 | Proposed, not acquired | Must supply sufficient current for all components; verify |
-| Weather-resistant enclosure | Protects electronics outdoors | 1 | Proposed, not acquired | Size and material depend on the final assembly |
-| Cable glands | Sealed entry points for sensor cables | As needed | Proposed, not acquired | Match to enclosure and cable diameters |
-| Connectors and mounting hardware | Securing and connecting components | As needed | Proposed, not acquired | Determine based on enclosure and sensor placement |
-
----
-
 ## Verification before purchase
 
 - [ ] Check local availability of each component.
@@ -56,21 +66,3 @@
 - [ ] Determine whether level shifters or external regulators are needed.
 - [ ] Record the exact module ordered once purchased.
 - [ ] Update this file with verified information after purchase.
-
----
-
-## Estimated cost
-
-- **Estimated total: ₹1,644** (core + supporting components, based on typical Indian market prices as of 2026)
-- This is a rough estimate only. Actual costs will vary by supplier, location, and module variants chosen.
-- No components have been purchased; prices have not been verified.
-
----
-
-## Notes
-
-- Clone and third-party module variants can differ significantly from one another. Always verify the specific board that is received.
-- Do not substitute components without checking compatibility and updating the documentation.
-- No prices are recorded because none have been verified.
-- No purchases have been made.
-- The Arduino Uno R3 operates at 5 V logic. Several proposed modules operate at 3.3 V logic. Level shifting may be required; do not assume 3.3 V modules are 5 V tolerant.
