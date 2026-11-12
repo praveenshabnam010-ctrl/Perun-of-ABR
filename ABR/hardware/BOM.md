@@ -59,6 +59,14 @@
 
 ---
 
+## Estimated cost
+
+- **Estimated total: ₹1,644** (core + supporting components, based on typical Indian market prices as of 2026)
+- This is a rough estimate only. Actual costs will vary by supplier, location, and module variants chosen.
+- No components have been purchased; prices have not been verified.
+
+---
+
 ## Notes
 
 - Clone and third-party module variants can differ significantly from one another. Always verify the specific board that is received.
