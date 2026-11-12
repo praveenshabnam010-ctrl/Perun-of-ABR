@@ -71,6 +71,10 @@ Keep ABR-specific files separate from broader Perun documentation. Do not presen
 
 The project licence has not yet been finalised. A `LICENSE` file will be added once the licence is chosen. Until then, do not assume reuse rights beyond what is provided by GitHub's terms and the project maintainers' permission.
 
+## AI assistance
+
+This project uses AI tools (OpenCode, Nemotron 3 Ultra) for coding assistance. All design decisions, review and responsibility remain with the human maintainers. AI-generated content must be verified before committing.
+
 ## Questions
 
 Open an issue if anything is unclear. Constructive questions and suggestions are welcome.
