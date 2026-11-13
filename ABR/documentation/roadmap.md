@@ -43,7 +43,6 @@ Status labels: **Planned**, **In development**, **Implemented**, **Tested**. Onl
 
 - Handle missing or invalid readings gracefully.
 - Enforce sensor measurement intervals.
-- Add rain-gauge debounce.
 - Record calibration notes and measurement limitations.
 
 ## Phase 5 — Prototype

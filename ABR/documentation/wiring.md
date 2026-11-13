@@ -8,24 +8,18 @@
 
 ### I²C — A4 (SDA), A5 (SCL)
 
-The BME280, BH1750 and DS3231 share the I²C bus. Each device is addressed individually, so they can coexist on the same two wires provided there are no address conflicts.
+The DS3231 RTC and the AHT20+BMP280 module share the I²C bus. Each device is addressed individually, so they can coexist on the same two wires provided there are no address conflicts.
 
 Pull-up resistors may already be present on the modules. Multiple modules on the same bus can affect bus loading. Check the requirements of each module before combining them.
 
 ### SPI — D11 (MOSI), D12 (MISO), D13 (SCK)
 
-The MicroSD module and the ILI9341 display share the SPI bus. Each device has its own chip-select line:
+The ST7789 TFT display and the MicroSD module share the SPI bus. Each device has its own chip-select line:
 
-- ILI9341 TFT — CS on **D10**
+- ST7789 TFT — CS on **D10**
 - MicroSD module — CS on **D4**
 
 Only one SPI device is active at a time, determined by which chip-select line is pulled low.
-
-### Rain gauge — D2
-
-The tipping-bucket rain gauge is intended to connect to D2, which supports hardware interrupt 0 on the Arduino Uno R3. Each tip of the bucket triggers a pulse on this pin.
-
-The required pull-up resistor, debounce handling and electrical protection depend on the specific gauge model. Verify the output type before connecting.
 
 ---
 
@@ -37,10 +31,10 @@ The Arduino Uno R3 operates at **5 V logic**. Many modules in the proposed desig
 
 | Device | Typical logic voltage | Notes |
 |--------|-----------------------|-------|
-| BME280 | 3.3 V | Verify whether the module includes level shifting |
-| BH1750 | 3.3 V | Verify whether the module includes level shifting |
-| DS3231 | 3.3 V–5 V | Many modules include a regulator; verify |
-| ILI9341 TFT | 3.3 V | Some modules include level shifting; verify |
+| DS3231 RTC | 3.3 V–5 V | Many modules include a regulator; verify |
+| AHT20+BMP280 | 3.3 V | Verify whether the module includes level shifting |
+| CJMCU TEMT6000 | 3.3 V–5 V | Depends on module variant |
+| ST7789 TFT | 3.3 V | Some modules include level shifting; verify |
 | MicroSD module | 3.3 V | Most modules include a regulator and level shifter; verify |
 
 ---
@@ -58,12 +52,11 @@ The Arduino Uno R3 operates at **5 V logic**. Many modules in the proposed desig
 
 | Device | Bus | Proposed pins | Power rail | Notes |
 |--------|-----|--------------|------------|-------|
-| BME280 | I²C | A4 (SDA), A5 (SCL) | 3.3 V | Confirm address (0x76 or 0x77) and 5 V tolerance |
-| BH1750 | I²C | A4 (SDA), A5 (SCL) | 3.3 V | Confirm address (0x23 or 0x5C) and 5 V tolerance |
-| DS3231 | I²C | A4 (SDA), A5 (SCL) | 5 V | Confirm address (0x68) and module variant |
-| ILI9341 TFT | SPI | D10 (CS), D8 (RESET), D7 (DC), D11, D12, D13 | 3.3 V logic | Confirm control pin layout and level shifting |
+| DS3231 RTC | I²C | A4 (SDA), A5 (SCL) | 5 V | Confirm address (0x68) and module variant |
+| AHT20+BMP280 | I²C | A4 (SDA), A5 (SCL) | 3.3 V | Confirm addresses and 5 V tolerance |
+| CJMCU TEMT6000 | Analog | A0 | 3.3 V–5 V | Confirm analog output range |
+| ST7789 TFT | SPI | D10 (CS), D8 (RESET), D7 (DC), D11, D12, D13 | 3.3 V logic | Confirm control pin layout and level shifting |
 | MicroSD module | SPI | D4 (CS), D11, D12, D13 | 3.3 V logic | Confirm level shifting and FAT32 compatibility |
-| Rain gauge | GPIO interrupt | D2 | — | Confirm output type, pull-up and debounce needs |
 
 See the [pin map](../hardware/pinmap.md) for the full proposed assignments.
 

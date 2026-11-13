@@ -11,7 +11,6 @@ ABR is the hardware component of PERUN: a modular weather station designed for b
 1. Temperature and humidity
 2. Atmospheric pressure
 3. Light intensity
-4. Rainfall
 
 ## Our Principles
 

@@ -64,17 +64,6 @@ The ST7789 TFT display and the MicroSD module share the SPI bus. Each device req
 
 ---
 
-## GPIO — Rain gauge (not yet included)
-
-| Device | Signal | Arduino pin | Notes |
-|--------|--------|-------------|-------|
-| Tipping-bucket rain gauge | Signal | D2 | Interrupt-capable pin; pull-up and debounce requirements depend on the gauge module |
-| Tipping-bucket rain gauge | GND | GND | — |
-
-D2 supports hardware interrupts on the Arduino Uno R3 (interrupt 0). D3 is the other interrupt-capable pin and is available as a fallback.
-
----
-
 ## Power rails
 
 | Rail | Voltage | Notes |
@@ -125,7 +114,6 @@ Do not connect a 5 V logic signal to a 3.3 V module input without first verifyin
 - [ ] Confirm whether level shifting is required for each device.
 - [ ] Confirm that I²C addresses do not conflict.
 - [ ] Confirm that SPI devices use separate chip-select pins.
-- [ ] Confirm the rain gauge output type, pull-up requirements and interrupt behaviour.
 - [ ] Confirm total current consumption against the power supply capacity.
 - [ ] Check for pin conflicts with any additional modules added in future.
 - [ ] Update this document after each verification step.

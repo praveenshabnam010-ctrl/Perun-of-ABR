@@ -2,7 +2,7 @@
 
 ## Purpose
 
-ABR is intended to monitor temperature, relative humidity, atmospheric pressure, light intensity and rainfall. The design prioritises affordability, modularity, reproducibility, reliability and simplicity.
+ABR is intended to monitor temperature, relative humidity, atmospheric pressure and light intensity. The design prioritises affordability, modularity, reproducibility, reliability and simplicity.
 
 ## Status
 
@@ -21,11 +21,11 @@ ABR is in the planning stage. No physical station has been built. No components 
                                |
         +----------------------+----------------------+
         |                      |                      |
-   I²C bus (A4/A5)        SPI bus (D11–D13)      GPIO / Analog
+   I²C bus (A4/A5)        SPI bus (D11–D13)      Analog
         |                      |                      |
- AHT20+BMP280      ST7789 TFT (CS: D10)      Tipping-bucket
- (temp, humidity,   MicroSD (CS: D4)          rain gauge (D2)
- pressure)                    CJMCU TEMT6000 (A0)
+ AHT20+BMP280      ST7789 TFT (CS: D10)      CJMCU TEMT6000 (A0)
+ (temp, humidity,   MicroSD (CS: D4)          Ambient light
+ pressure)
  DS3231 RTC
 ```
 
@@ -46,7 +46,6 @@ The MicroSD module and the ST7789 TFT display share the SPI bus and each require
 | MicroSD module | Local data storage | SPI | 3.3 V logic | Proposed, not acquired | Confirm logic voltage, level shifting and CS pin |
 | GoldenMorning 1.9" ST7789 TFT | Local display | SPI | 3.3 V logic | Proposed, not acquired | Confirm module voltage, level shifting and control pin layout |
 | SmartElex Bi-Directional Logic Level Converter | 5 V ↔ 3.3 V level shifting | — | 5 V / 3.3 V | Proposed, not acquired | Confirm converter pinout and channel count |
-| Tipping-bucket rain gauge | Rainfall measurement | GPIO interrupt | — | Not yet included | Confirm resolution, output type and debounce requirements |
 
 ### Supporting components
 
@@ -84,7 +83,6 @@ The Uno's onboard 3.3 V rail has a limited current capacity. If multiple 3.3 V m
 ## Open questions
 
 - Which exact module variants will be used?
-- What is the rain gauge resolution and output type?
 - How will the station be powered in deployment?
 - What enclosure is suitable for the local environment?
 - What measurement intervals and accuracy are appropriate?

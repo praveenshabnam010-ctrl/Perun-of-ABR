@@ -12,9 +12,6 @@
 
 **Status: proposed.** No components have been purchased, acquired or tested. Prices and availability have not been verified. This is not a final bill of materials.
 
-**Not yet included:**
-- Rain gauge — to be selected and added later.
-
 **Notes:**
 - Prices may vary by region, supplier, and over time.
 - Clone and third-party module variants can differ significantly. Always verify the specific board received.
