@@ -21,15 +21,15 @@ ABR is in the planning stage. No physical station has been built. No components 
                                |
         +----------------------+----------------------+
         |                      |                      |
-   I²C bus (A4/A5)        SPI bus (D11–D13)      GPIO interrupt
+   I²C bus (A4/A5)        SPI bus (D11–D13)      GPIO / Analog
         |                      |                      |
- BME280 (temp,          MicroSD module (CS: D4)   Tipping-bucket
- humidity, pressure)    ILI9341 TFT (CS: D10)     rain gauge (D2)
- BH1750 (light)
- DS3231 (real-time clock)
+ AHT20+BMP280      ST7789 TFT (CS: D10)      Tipping-bucket
+ (temp, humidity,   MicroSD (CS: D4)          rain gauge (D2)
+ pressure)                    CJMCU TEMT6000 (A0)
+ DS3231 RTC
 ```
 
-The MicroSD module and the ILI9341 display share the SPI bus and each require a dedicated chip-select line. I²C devices share the same two wires and are distinguished by their addresses. The exact requirements depend on the specific module variants used.
+The MicroSD module and the ST7789 TFT display share the SPI bus and each require a dedicated chip-select line. I²C devices share the same two wires and are distinguished by their addresses. The exact requirements depend on the specific module variants used.
 
 ---
 
@@ -40,12 +40,13 @@ The MicroSD module and the ILI9341 display share the SPI bus and each require a 
 | Component | Role | Interface | Power rail | Status | Verification needed |
 |-----------|------|-----------|------------|--------|---------------------|
 | Arduino Uno R3 | Main microcontroller | — | External 5 V | Proposed, not acquired | Confirm board variant and logic level |
-| BME280 | Temperature, relative humidity and atmospheric pressure | I²C | 3.3 V | Proposed, not acquired | Confirm module regulator, 5 V tolerance and I²C address |
-| BH1750 | Light intensity | I²C | 3.3 V | Proposed, not acquired | Confirm module variant, 5 V tolerance and I²C address |
+| AHT20+BMP280 | Temperature, relative humidity and atmospheric pressure | I²C | 3.3 V | Proposed, not acquired | Confirm module regulator, 5 V tolerance and I²C addresses |
+| CJMCU TEMT6000 | Ambient light intensity | Analog (A0) | 3.3 V | Proposed, not acquired | Confirm module variant and analog output range |
 | DS3231 | Real-time clock | I²C | 5 V | Proposed, not acquired | Confirm module variant, battery type and I²C address |
 | MicroSD module | Local data storage | SPI | 3.3 V logic | Proposed, not acquired | Confirm logic voltage, level shifting and CS pin |
-| 2.4-inch ILI9341 TFT | Local display | SPI | 3.3 V logic | Proposed, not acquired | Confirm module voltage, level shifting and control pin layout |
-| Tipping-bucket rain gauge | Rainfall measurement | GPIO interrupt | — | Proposed, not acquired | Confirm resolution, output type and debounce requirements |
+| GoldenMorning 1.9" ST7789 TFT | Local display | SPI | 3.3 V logic | Proposed, not acquired | Confirm module voltage, level shifting and control pin layout |
+| SmartElex Bi-Directional Logic Level Converter | 5 V ↔ 3.3 V level shifting | — | 5 V / 3.3 V | Proposed, not acquired | Confirm converter pinout and channel count |
+| Tipping-bucket rain gauge | Rainfall measurement | GPIO interrupt | — | Not yet included | Confirm resolution, output type and debounce requirements |
 
 ### Supporting components
 
@@ -53,7 +54,6 @@ The MicroSD module and the ILI9341 display share the SPI bus and each require a 
 |-----------|---------|--------|
 | Breadboard or perfboard | Prototyping and assembly | Proposed, not acquired |
 | Jumper wires | Connections | Proposed, not acquired |
-| Logic-level shifter | 5 V to 3.3 V conversion, where required | Proposed, not acquired |
 | Voltage regulator | Supplementary 3.3 V supply, if needed | Proposed, not acquired |
 | Regulated 5 V power supply | Station power | Proposed, not acquired |
 | Weather-resistant enclosure | Outdoor protection | Proposed, not acquired |
@@ -63,19 +63,19 @@ The MicroSD module and the ILI9341 display share the SPI bus and each require a 
 
 ## Power and logic levels
 
-The Arduino Uno R3 operates at **5 V logic**. Several proposed modules — including the BME280, BH1750, ILI9341 TFT and MicroSD module — are commonly designed for **3.3 V logic**.
+The Arduino Uno R3 operates at **5 V logic**. Several confirmed modules — including the AHT20+BMP280, ST7789 TFT and MicroSD module — are commonly designed for **3.3 V logic**.
 
 **Do not assume that a 3.3 V module is 5 V tolerant.** Connecting a 5 V logic signal to a 3.3 V module input without verification risks damaging the module.
 
-| Device | Typical logic voltage | 5 V tolerant? |
-|--------|-----------------------|---------------|
-| BME280 | 3.3 V | Not assumed — verify the specific module |
-| BH1750 | 3.3 V | Not assumed — verify the specific module |
-| DS3231 | 3.3 V–5 V | Many modules include a regulator; verify |
-| ILI9341 TFT | 3.3 V (some modules include level shifting) | Not assumed — verify the specific module |
-| MicroSD module | 3.3 V (most modules include a regulator and level shifter) | Not assumed — verify the specific module |
+| Device | Typical logic voltage | 5 V tolerant? | Level shifter needed? |
+|--------|-----------------------|---------------|----------------------|
+| DS3231 RTC | 3.3 V–5 V | Many modules include a regulator | Verify |
+| AHT20+BMP280 | 3.3 V | Not assumed — verify | Likely |
+| CJMCU TEMT6000 | 3.3 V–5 V | Depends on module variant | Verify |
+| ST7789 TFT | 3.3 V | Not assumed — verify | Likely |
+| MicroSD module | 3.3 V | Most modules include regulator/shifter | Verify |
 
-Where a module is not 5 V tolerant and does not include level shifting, a separate logic-level shifter is required. Check each datasheet before making any connections.
+Where a module is not 5 V tolerant and does not include level shifting, the SmartElex Bi-Directional Logic Level Converter is required. Check each datasheet before making any connections.
 
 The Uno's onboard 3.3 V rail has a limited current capacity. If multiple 3.3 V modules draw more current than the rail can supply, an external 3.3 V regulator will be needed. Verify before connecting.
 
