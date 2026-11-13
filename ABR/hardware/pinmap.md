@@ -2,7 +2,7 @@
 
 **Status: proposed, not verified.**
 
-The pin assignments below are based on the proposed hardware design and have not been tested on physical hardware. They are subject to change as the project develops. Once a physical build is complete and tested, this document will be updated to reflect the confirmed assignments.
+The pin assignments below are based on the confirmed hardware components and have not been tested on physical hardware. They are subject to change as the project develops. Once a physical build is complete and tested, this document will be updated to reflect the confirmed assignments.
 
 If a conflict or error is identified at any stage of development, this document should be corrected and the change noted.
 
@@ -16,38 +16,35 @@ The Arduino Uno R3 operates at 5 V logic. All pin assignments below are proposal
 
 ## I²C bus — A4 (SDA) and A5 (SCL)
 
-The BME280, BH1750 and DS3231 share the I²C bus. Each device has a different address and can coexist on the same two wires, provided there are no address conflicts.
+The DS3231 and AHT20+BMP280 module share the I²C bus. Each device has a different address and can coexist on the same two wires, provided there are no address conflicts.
 
 | Device | Signal | Arduino pin | Power rail | Notes |
 |--------|--------|-------------|------------|-------|
-| BME280 | SDA | A4 | 3.3 V | Shared I²C bus |
-| BME280 | SCL | A5 | 3.3 V | Shared I²C bus |
-| BME280 | GND | GND | — | — |
-| BH1750 | SDA | A4 | 3.3 V | Shared I²C bus |
-| BH1750 | SCL | A5 | 3.3 V | Shared I²C bus |
-| BH1750 | GND | GND | — | — |
-| DS3231 | SDA | A4 | 5 V | Shared I²C bus |
-| DS3231 | SCL | A5 | 5 V | Shared I²C bus |
-| DS3231 | GND | GND | — | — |
+| DS3231 RTC | SDA | A4 | 5 V | Shared I²C bus |
+| DS3231 RTC | SCL | A5 | 5 V | Shared I²C bus |
+| DS3231 RTC | GND | GND | — | — |
+| AHT20+BMP280 | SDA | A4 | 3.3 V | Shared I²C bus |
+| AHT20+BMP280 | SCL | A5 | 3.3 V | Shared I²C bus |
+| AHT20+BMP280 | GND | GND | — | — |
 
 ---
 
 ## SPI bus — D11 (MOSI), D12 (MISO), D13 (SCK)
 
-The ILI9341 TFT display and the MicroSD module share the SPI bus. Each device requires its own chip-select (CS) line to avoid conflicts.
+The ST7789 TFT display and the MicroSD module share the SPI bus. Each device requires its own chip-select (CS) line to avoid conflicts.
 
-### ILI9341 TFT display
+### ST7789 TFT display (1.9", 170×320)
 
 | Signal | Arduino pin | Notes |
 |--------|-------------|-------|
 | CS | D10 | Chip select — active low |
-| RESET | D8 | Reset line; some modules use the Arduino reset pin instead |
-| DC | D7 | Data/command select |
+| DC/RS | D9 | Data/command select |
+| RST | D8 | Reset line; some modules use the Arduino reset pin instead |
 | MOSI | D11 | Shared SPI bus |
 | MISO | D12 | Shared SPI bus |
 | SCK | D13 | Shared SPI bus |
 
-### MicroSD module
+### MicroSD Card Reader Module
 
 | Signal | Arduino pin | Notes |
 |--------|-------------|-------|
@@ -58,7 +55,16 @@ The ILI9341 TFT display and the MicroSD module share the SPI bus. Each device re
 
 ---
 
-## GPIO — Rain gauge
+## Analog input — Light sensor
+
+| Device | Signal | Arduino pin | Notes |
+|--------|--------|-------------|-------|
+| CJMCU TEMT6000 | Analog out | A0 | Ambient light intensity measurement |
+| CJMCU TEMT6000 | GND | GND | — |
+
+---
+
+## GPIO — Rain gauge (not yet included)
 
 | Device | Signal | Arduino pin | Notes |
 |--------|--------|-------------|-------|
@@ -79,13 +85,19 @@ D2 supports hardware interrupts on the Arduino Uno R3 (interrupt 0). D3 is the o
 
 ---
 
+## SmartElex Bi-Directional Logic Level Converter
+
+Used to shift 5 V logic signals from the Arduino Uno R3 to 3.3 V logic for modules that are not 5 V tolerant (ST7789 TFT, MicroSD module, AHT20+BMP280). Verify the specific converter's pinout before wiring — it does not use Arduino digital pins; it sits between the Uno and the modules on their signal lines.
+
+---
+
 ## I²C addresses
 
 | Device | Commonly reported address | Notes |
 |--------|--------------------------|-------|
-| BME280 | 0x76 or 0x77 | Determined by the SDO pin on the module; verify |
-| BH1750 | 0x23 or 0x5C | Determined by the ADDR pin on the module; verify |
-| DS3231 | 0x68 | Fixed; verify for the specific module used |
+| DS3231 RTC | 0x68 | Fixed; verify for the specific module used |
+| AHT20 | 0x38 | Typical; verify |
+| BMP280 | 0x76 or 0x77 | Determined by the SDO pin; verify |
 
 These are typical values reported for these components. They are not confirmed for the specific modules that will be used. Verify before use.
 
@@ -93,17 +105,17 @@ These are typical values reported for these components. They are not confirmed f
 
 ## Voltage compatibility
 
-The Arduino Uno R3 operates at **5 V logic**. Many sensor and peripheral modules operate at **3.3 V logic**.
+The Arduino Uno R3 operates at **5 V logic**. Several confirmed modules operate at **3.3 V logic**.
 
-| Device | Typical operating voltage | 5 V tolerant? |
-|--------|--------------------------|---------------|
-| BME280 | 3.3 V | Not assumed — verify the specific module |
-| BH1750 | 3.3 V | Not assumed — verify the specific module |
-| DS3231 | 3.3 V–5 V | Many modules include a regulator; verify |
-| ILI9341 TFT | 3.3 V logic (some modules include level shifting) | Not assumed — verify the specific module |
-| MicroSD module | 3.3 V logic (most modules include a regulator and level shifter) | Not assumed — verify the specific module |
+| Device | Typical operating voltage | 5 V tolerant? | Level shifter needed? |
+|--------|--------------------------|---------------|----------------------|
+| DS3231 RTC | 3.3 V–5 V | Many modules include a regulator | Verify |
+| AHT20+BMP280 | 3.3 V | Not assumed — verify | Likely |
+| ST7789 TFT | 3.3 V logic | Not assumed — verify | Likely |
+| MicroSD module | 3.3 V logic | Most modules include regulator/shifter | Verify |
+| CJMCU TEMT6000 | 3.3 V–5 V | Depends on module variant | Verify |
 
-Do not connect a 5 V logic signal to a 3.3 V module input without first verifying that the module is 5 V tolerant or that it includes a level shifter. If it does not, a separate logic-level shifter is required.
+Do not connect a 5 V logic signal to a 3.3 V module input without first verifying that the module is 5 V tolerant or that it includes a level shifter. If it does not, the SmartElex Bi-Directional Logic Level Converter is required.
 
 ---
 
